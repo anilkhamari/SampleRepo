@@ -4,6 +4,9 @@ import com.example.helloworld.HelloWorldService;
 
 public class HelloWorldServiceImpl implements HelloWorldService {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// Print a friendly greeting. If arguments are provided, join and print them; otherwise print "Hello World".
 		if (args == null || args.length == 0) {
