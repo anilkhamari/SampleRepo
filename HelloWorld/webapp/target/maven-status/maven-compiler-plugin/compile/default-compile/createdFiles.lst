@@ -1,0 +1,9 @@
+com\example\helloworld\web\controller\AuthController.class
+com\example\helloworld\web\model\Notification.class
+com\example\helloworld\web\controller\HomeController.class
+com\example\helloworld\web\config\SecurityConfig.class
+com\example\helloworld\web\repository\NotificationRepository.class
+com\example\helloworld\web\repository\UserRepository.class
+com\example\helloworld\web\service\NotificationService.class
+com\example\helloworld\web\model\User.class
+com\example\helloworld\web\WebApplication.class

@@ -14,6 +14,13 @@ public class HelloWorldServiceImpl implements HelloWorldService {
 		} else {
 			System.out.println("Hello " + String.join(" ", args));
 		}
+		
+		// Test Celsius to Fahrenheit conversion
+		System.out.println("\n=== Celsius to Fahrenheit Conversion ===");
+		System.out.println("0°C = " + celsiusToFahrenheit(0) + "°F");
+		System.out.println("100°C = " + celsiusToFahrenheit(100) + "°F");
+		System.out.println("37°C = " + celsiusToFahrenheit(37) + "°F");
+		System.out.println("-40°C = " + celsiusToFahrenheit(-40) + "°F");
 	}
 
 	/**
@@ -45,6 +52,16 @@ public class HelloWorldServiceImpl implements HelloWorldService {
 			return str1 == str2; // both null or both non-null reference equality
 		}
 		return str1.equalsIgnoreCase(str2);
+	}
+
+	/**
+	 * Converts temperature from Celsius to Fahrenheit.
+	 * 
+	 * @param celsius the temperature in Celsius
+	 * @return the temperature in Fahrenheit
+	 */
+	public static double celsiusToFahrenheit(double celsius) {
+		return (celsius * 9.0 / 5.0) + 32;
 	}
 
 }

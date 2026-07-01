@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .header-tagline {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .username {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-logout:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .welcome-card h2 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-card p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .username-highlight {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card h3 {
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f5576c;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .card {
+            position: relative;
+        }
+
+        .admin-section {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+            margin-top: 30px;
+        }
+
+        .admin-section h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .admin-section p {
+            color: #856404;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                padding: 30px 20px;
+            }
+
+            .header-left h1 {
+                font-size: 28px;
+            }
+
+            .header-tagline {
+                font-size: 12px;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .username {
+                font-size: 14px;
+            }
+
+            .btn-logout {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 15px;
+            }
+
+            .header-left h1 {
+                font-size: 24px;
+            }
+
+            .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .username {
+                font-size: 13px;
+            }
+
+            .btn-logout {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with user info and logout -->
+    <header>
+        <div class="header-left">
+            <h1>🏠 Home</h1>
+            <p class="header-tagline">Welcome to your personal dashboard</p>
+        </div>
+        <div class="user-info">
+            <span class="username" th:if="${username}">
+                👤 <strong th:text="${username}"></strong>
+            </span>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="btn-logout">🚪 Logout</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Welcome section -->
+        <div class="welcome-card">
+            <h2>Welcome to My Application!</h2>
+            <p>Hello <span class="username-highlight" th:text="${username}">User</span>, you have successfully logged in.</p>
+            <p>This is your secure home page. You can now access authenticated content.</p>
+        </div>
+
+        <!-- Content grid -->
+        <div class="content-grid">
+            <div class="card">
+                <h3>📊 Dashboard</h3>
+                <p>View your personal dashboard, statistics, and analytics here.</p>
+            </div>
+
+            <div class="card">
+                <h3>⚙️ Settings</h3>
+                <p>Manage your account settings, preferences, and security options.</p>
+            </div>
+
+            <a href="/profile" class="card">
+                <h3>👥 Profile</h3>
+                <p>Update your profile information and manage your personal details.</p>
+            </a>
+
+            <a href="/notifications" class="card">
+                <h3>🔔 Notifications</h3>
+                <p>Check your notifications and updates from the application.</p>
+                <div class="notification-badge" th:if="${unreadCount > 0}" th:text="${unreadCount}">3</div>
+            </a>
+        </div>
+
+        <!-- Admin section (visible only to ADMIN users) -->
+        <div class="admin-section" sec:authorize="hasRole('ADMIN')">
+            <h3>🔐 Admin Panel</h3>
+            <p>You have administrative privileges and can manage users and system settings.</p>
+        </div>
+    </div>
+</body>
+</html>
